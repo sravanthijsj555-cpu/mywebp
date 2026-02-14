@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    font-family: system-ui, sans-serif;
+  }
+
+  .card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  .btn, .option {
+    display: block;
+    margin: 12px auto;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    background: #ffe4ec;
+    font-size: 16px;
+  }
+
+  .btn:hover, .option:hover {
+    background: #ffd1e0;
+  }
+
+  video {
+    width: 100%;
+    margin-top: 15px;
+    border-radius: 12px;
+  }
+
+  .emoji {
+    position: fixed;
+    font-size: 22px;
+    animation: floatUp 2s ease-out forwards;
+  }
+
+  @keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-120px); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- Screen 1 -->
+  <div id="s1" class="screen active">
+    <h2>Hey cutie beauty 💖</h2>
+    <p>I know you’re under a lot of stress right now.
+This little thing is just to make you smile for a moment 😑<br>Promise you’ll smile? 😊</p>
+    <button class="btn" onclick="go(2)">click this when you’re stressed 😌 </button>
+  </div>
+
+  <!-- Screen 2 -->
+  <div id="s2" class="screen">
+    <h2>Quick question 😌</h2>
+    <p>How much do you love me?</p>
+
+    <button class="option" onclick="wrong()">0%😭🤮</button>
+    <button class="option" onclick="wrong()">povey 😎</button>
+    <button class="option" onclick="right()">To infinity & beyond♾️💖</button>
+  </div>
+
+  <!-- Screen 3 -->
+  <div id="s3" class="screen">
+    <h2 id="resultText"></h2>
+
+    <video id="wrongVideo" src="ove/hit.mp4" controls style="display:none;"></video>
+    <video id="rightVideo" src="ove/cute.mp4" controls style="display:none;"></video>
+
+    <button id="retryBtn" class="btn" style="display:none;" onclick="retry()">manchi ga select cheyyi 😒</button>
+  </div>
+
+</div>
+
+<script>
+  function go(n) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('s' + n).classList.add('active');
+  }
+
+  function spawn(symbol) {
+    for (let i = 0; i < 15; i++) {
+      const e = document.createElement("div");
+      e.textContent = symbol;
+      e.className = "emoji";
+      e.style.left = Math.random() * window.innerWidth + "px";
+      e.style.top = Math.random() * window.innerHeight + "px";
+      document.body.appendChild(e);
+      setTimeout(() => e.remove(), 2000);
+    }
+  }
+
+  function wrong() {
+    go(3);
+    document.getElementById("resultText").innerText = "Wrong choice 😤 ayipoyav inka!";
+    
+    document.getElementById("rightVideo").style.display = "none";
+    const v = document.getElementById("wrongVideo");
+    v.style.display = "block";
+    v.currentTime = 0;
+    v.play();
+
+    document.getElementById("retryBtn").style.display = "block";
+
+    spawn("😡");
+  }
+
+  function right() {
+    go(3);
+    document.getElementById("resultText").innerText = "I knew you’d choose this 😘 I love you🫂!";
+    
+    document.getElementById("wrongVideo").style.display = "none";
+    document.getElementById("retryBtn").style.display = "none";
+
+    const v = document.getElementById("rightVideo");
+    v.style.display = "block";
+    v.currentTime = 0;
+    v.play();
+
+    spawn("💖");
+  }
+
+  function retry() {
+    go(2);
+  }
+</script>
+
+</body>
+</html>
